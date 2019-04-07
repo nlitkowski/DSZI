@@ -1,7 +1,7 @@
 # Projekt Sztuczna Inteligencja
-## Autorzy:
+**Autorzy**
  - Maciej Sobkowiak
  - Julian Kobryński
  - Norbert Litkowski
  
-## Temat: inteligentna śmieciarka
+**Temat: inteligentna śmieciarka**
