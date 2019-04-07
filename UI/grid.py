@@ -3,6 +3,29 @@ import numpy as np
 
 
 class Grid:
+
+    def __init__(self, cols: int, rows: int):
+        self.table = [[Node(row, col)
+                       for col in range(cols)]
+                      for row in range(rows)]
+        self.cols = cols
+        self.rows = rows
+
+    def draw_map(self, screen: "PyGame screen"):
+        """Draws whole map"""
+        screen.fill(Node.BLACK)
+        for row in self.table:
+            for node in row:
+                node.draw(screen)
+
+    def change_field(self, row: int, col: int, f_type: int):
+        self.table[row][col].change_field_type(f_type)
+
+    def draw_node(self, screen, row: int, col: int):
+        self.table[row][col].draw(screen)
+
+
+class Node:
     # define rectangles dimensions
     r_width = 20
     r_height = 20
@@ -16,32 +39,40 @@ class Grid:
     RED = (255, 0, 0)
     BLUE = (0, 0, 255)
 
-    def __init__(self, cols, rows):
-        self.table = np.zeros(shape=(rows, cols), dtype=int)
-        self.cols = list(range(cols))
-        self.rows = list(range(rows))
+    def __init__(self, row: int, col: int,
+                 field_type: int = 0, reachable: bool = True):
+        self.row = row
+        self.col = col
+        self.field_type = field_type
+        self.reachable = reachable
+        self.visited = False
 
-    def draw_map(self, screen):
-        screen.fill(self.BLACK)
-        for col in self.cols:
-            for row in self.rows:
-                self.draw_node(screen, row, col)
+    def visit(self):
+        self.visited = True
 
-    def draw_node(self, screen, row, col):
-        if self.table[row][col] == 0:
-            color = self.GREEN
-        elif self.table[row][col] == 1:
-            color = self.RED
-        elif self.table[row][col] == 2:
-            color = self.BLUE
+    def draw(self, screen):
+        color = self.get_field_color()
+        col = self.col
+        row = self.row
+        width = self.r_width
+        height = self.r_height
+        margin = self.r_margin
         # rect -> (left, top, width, height)
         # draw.rect(surface, color, rect, margin)
-
         pg.draw.rect(screen, color,
-                     ((col * (self.r_width + self.r_margin)) + self.r_margin,
-                      (row * (self.r_height + self.r_margin)) + self.r_margin,
-                      self.r_width, self.r_height))
-        pg.display.flip()
+                     ((col * (width + margin)) + margin,
+                      (row * (height + margin)) + margin,
+                      width, height))
+        pg.display.flip()  # refresh screen
 
-    def change_field(self, row, col, field_type):
-        self.table[row][col] = field_type
+    def change_field_type(self, field_type: int):
+        self.field_type = field_type
+
+    def get_field_color(self) -> tuple:
+        """Gets the color tuple of field"""
+        if self.field_type == 0:
+            return self.GREEN
+        elif self.field_type == 1:
+            return self.RED
+        elif self.field_type == 2:
+            return self.BLUE

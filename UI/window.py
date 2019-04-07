@@ -1,22 +1,22 @@
 import pygame as pg
 import time
 from pygame.locals import *
-from UI.grid import Grid
+from UI.grid import Grid, Node
 
 
 class Window():
-    def __init__(self, grid):
+    def __init__(self, grid: Grid):
         pg.init()
         # setup window
         pg.display.set_caption('Inteligentna śmieciarka')
 
         self.grid = grid
         # assign to variables for brevity
-        cols = len(self.grid.cols)
-        rows = len(self.grid.rows)
-        width = self.grid.r_width
-        height = self.grid.r_height
-        margin = self.grid.r_margin
+        cols = self.grid.cols
+        rows = self.grid.rows
+        width = Node.r_width
+        height = Node.r_height
+        margin = Node.r_margin
 
         screen_width = cols * (width + margin) + 2 * margin
         screen_height = rows * (height + margin) + 2 * margin
