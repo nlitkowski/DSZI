@@ -6,5 +6,3 @@
  
 **Temat: inteligentna śmieciarka**
 
-
-TESTING
