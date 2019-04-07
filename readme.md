@@ -5,3 +5,5 @@
  - Norbert Litkowski
  
 **Temat: inteligentna śmieciarka**
+
+asb
