@@ -1,11 +1,15 @@
-import pygame
+import pygame as pg
+import numpy as np
+
+from UI.grid import Grid
+from UI.window import Window
 
 
 def main():
-    pygame.init()
-    # Define screen size tuple
-    size = width, height = 1200, 900
-    screen = pygame.display.set_mode(size)
+    # initialize grid
+    grid = Grid(20, 20)
+    # initialize window
+    window = Window(grid)
 
 
 if __name__ == "__main__":

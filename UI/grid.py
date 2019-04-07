@@ -1,34 +1,47 @@
-import pygame
+import pygame as pg
+import numpy as np
 
 
 class Grid:
-    def __init__(self, game):
-        self.game = game
-        self.length = self.game.screen_res[0]/15
-        self.width = (self.game.screen_res[1]/15)-3
+    # define rectangles dimensions
+    r_width = 20
+    r_height = 20
+    r_margin = 5
 
-        self.nodes = [[Node(self, [row, col + 3]) 
-                      for row in xrange(self.length)]
-                      for col in xrange(self.width)]
+    # define some basic colors
+    # TODO: change to Enum
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    GREEN = (0, 255, 0)
+    RED = (255, 0, 0)
+    BLUE = (0, 0, 255)
 
+    def __init__(self, cols, rows):
+        self.table = np.zeros(shape=(rows, cols), dtype=int)
+        self.cols = list(range(cols))
+        self.rows = list(range(rows))
 
-class Node:
-    def __init__(self, grid, pos):
-        self.grid = grid
-        self.game = self.grid.game
+    def draw_map(self, screen):
+        screen.fill(self.BLACK)
+        for col in self.cols:
+            for row in self.rows:
+                self.draw_node(screen, row, col)
 
-        self.pos = pos
-        self.blit_pos = [i*15 for i in self.pos]
-        self.color = [0, 0, 0]
+    def draw_node(self, screen, row, col):
+        if self.table[row][col] == 0:
+            color = self.GREEN
+        elif self.table[row][col] == 1:
+            color = self.RED
+        elif self.table[row][col] == 2:
+            color = self.BLUE
+        # rect -> (left, top, width, height)
+        # draw.rect(surface, color, rect, margin)
 
-        self.image = pygame.Surface((15, 15))
+        pg.draw.rect(screen, color,
+                     ((col * (self.r_width + self.r_margin)) + self.r_margin,
+                      (row * (self.r_height + self.r_margin)) + self.r_margin,
+                      self.r_width, self.r_height))
+        pg.display.flip()
 
-        self.rect = self.image.get_rect(topleft=self.blit_pos)
-
-        self.solid = 0
-        self.in_path = False
-        self.checked = False
-
-    def fill(self, screen):
-        self.image.fill(self.color)
-        screen.blit(self.image, self.rect)
+    def change_field(self, row, col, field_type):
+        self.table[row][col] = field_type
