@@ -6,4 +6,3 @@
  
 **Temat: inteligentna śmieciarka**
 
-asb
