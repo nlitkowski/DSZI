@@ -9,7 +9,7 @@ def main():
     # initialize grid
     grid = Grid(20, 20)
     # initialize window
-    window = Window(grid)
+    Window(grid)
 
 
 if __name__ == "__main__":
