@@ -3,7 +3,6 @@ import time
 from pygame.locals import *
 from UI.grid import Grid, Node
 
-
 class Window():
     def __init__(self, grid: Grid):
         pg.init()
