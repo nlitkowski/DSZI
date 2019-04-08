@@ -2,7 +2,7 @@
 **Authors**
  - [Maciej Sobkowiak](../../../../MaSobkowiak)
  - [Julian Kobryński](../../../../JKobrynski)
- - [Norbert Litkowski](~/nlitkowski)
+ - [Norbert Litkowski](../../../../nlitkowski)
  
 **Subject: intelligent garbage truck**
 
