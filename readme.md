@@ -1,8 +1,8 @@
 # Project: Artificial intelligence
 **Authors**
- - [Maciej Sobkowiak](../../../../MaSobkowiak)
- - [Julian Kobryński](../../../../JKobrynski)
- - [Norbert Litkowski](../../../../nlitkowski)
+ - [Maciej Sobkowiak](https://github.com/MaSobkowiak)
+ - [Julian Kobryński](https://github.com/JKobrynski)
+ - [Norbert Litkowski](https://github.com/nlitkowski)
  
 **Subject: intelligent garbage truck**
 
