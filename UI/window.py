@@ -4,7 +4,7 @@ from UI.grid import Grid, Node
 
 class Window():
     def __init__(self, grid: Grid):
-        pg.init()
+        pg.init()   # pylint: disable=no-member
         # setup window
         pg.display.set_caption('Inteligentna śmieciarka')
 
@@ -35,4 +35,4 @@ class Window():
             self.grid.draw_node(self.screen, x - 1, y - 1)
             self.grid.draw_node(self.screen, x, y)
             pg.time.delay(500)
-        pg.quit()
+        pg.quit()   # pylint: disable=no-member
