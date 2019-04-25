@@ -1,4 +1,5 @@
 import pygame as pg
+import random
 from UI.grid import Grid, Node
 
 
@@ -26,8 +27,19 @@ class Window():
         self.clock = pg.time.Clock()
         grid.change_field(0, 0, 1)
         grid.change_field(19, 19, 2)
+
+        #random obsticle
+        for x in range(25):
+            grid.change_field(random.randint(1,18),random.randint(1,18),3)
+
+
         path = [(i, i) for i in range(1, 20, 1)]
         self.grid.draw_map(self.screen)
+
+
+        
+
+
         for t in path:
             x, y = t
             self.grid.change_field(x-1, y-1, 0)
