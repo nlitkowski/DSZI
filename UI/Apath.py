@@ -1,33 +1,28 @@
-import numpy
+import numpy as np
 from heapq import *  # pylint: disable=unused-wildcard-import
 
 
-def heuristic(a, b, pathing):
+def heuristic(a, b):
 
     x = abs(a[0]-b[0])
     y = abs(a[1]-b[1])
 
-    if pathing == '*':
-
-        if x > y:
-            return 14*y + 10*(x - y)
-        else:
-            return 14*x + 10*(y - x)
+    if x > y:
+        return 14*y + 10*(x - y)
     else:
-        return 10*(x + y)
+        return 14*x + 10*(y - x)
+    
 
 
-def astar(array, start, goal, pathing):
+def Astar(array, start, goal):
 
-    if pathing == '+':
-        neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-    else:
-        neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
-        neighbors = [(i, j)for i in range(-1, 2, 1) for j in range(2)]
+    
+    neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    
 
     came_from = {}
     gscore = {start: 0}
-    fscore = {start: heuristic(start, goal, pathing)}
+    fscore = {start: heuristic(start, goal)}
     oheap = []
     checked = []
 
@@ -45,13 +40,14 @@ def astar(array, start, goal, pathing):
                 current = came_from[current]
 
             return list(reversed(data)), checked
-
-        array[current[0], current[1]] = 2
+        print("array current",array[current[0],current[1]])
+        array[current[0], current[1]]=2
+        
         for i, j in neighbors:
 
             neighbor = current[0] + i, current[1] + j  
 
-            tentative_g_score = gscore[current] + heuristic(current, neighbor, pathing)
+            tentative_g_score = gscore[current] + heuristic(current, neighbor)
 
             if 0 <= neighbor[0] < array.shape[0]:
                 if 0 <= neighbor[1] < array.shape[1]:                
@@ -70,6 +66,6 @@ def astar(array, start, goal, pathing):
             if tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in oheap]:
                 came_from[neighbor] = current
                 gscore[neighbor] = tentative_g_score
-                fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal, pathing)
+                fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
                 heappush(oheap, (fscore[neighbor], neighbor))
     return False
