@@ -32,7 +32,7 @@ class Window():
         grid.change_field(19, 19, 2)
 
         #random obsticle
-        for x in range(100):
+        for x in range(200):
             grid.change_field(random.randint(1,18),random.randint(1,18),3)
 
         #path
