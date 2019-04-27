@@ -41,15 +41,12 @@ class Node:
     ORANGE = (255, 165, 0)
 
     def __init__(self, row: int, col: int,
-                 field_type: int = 0, reachable: bool = True):
+                 field_type: int = 0):
         self.row = row
         self.col = col
         self.field_type = field_type
-        self.reachable = reachable
-        self.visited = False
 
-    def visit(self):
-        self.visited = True
+
 
     def draw(self, screen):
         color = self.get_field_color()

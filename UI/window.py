@@ -2,7 +2,7 @@ import pygame as pg
 import numpy as np
 import random
 from UI.grid import Grid, Node
-from UI.Apath import Astar
+from UI.Apath import APath, astar
 
 
 
@@ -32,7 +32,7 @@ class Window():
         grid.change_field(19, 19, 2)
 
         #random obsticle
-        for x in range(40):
+        for x in range(70):
             grid.change_field(random.randint(1,18),random.randint(1,18),3)
 
         #path
@@ -41,17 +41,20 @@ class Window():
 
         #convert table to support Apath algoritm
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-        for i,x in enumerate(array):
-            for j,y in enumerate(x):
-                if y.field_type == 3:
-                    array[i][j] = None
+        
+        #for i,x in enumerate(array):
+        #     for j,y in enumerate(x):
+        #        if y.field_type == 3:
+        #           array[i][j] = None
                 
-        nodes_array = np.array(array)
+        #nodes_array = np.array(array)
 
         #Run A star
 
-        path, check = Astar(nodes_array, (0,0), (19, 19))
-        print(path,"\n\n",check,"\n\n")
+        #path, check = Astar(nodes_array, (0,0), (19, 19))
+        #print(path,"\n\n",check,"\n\n")
+        path = APath(array,(0,0),(19,19))
+        print(path,"\n\n")
 
 
         for t in path:

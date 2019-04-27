@@ -2,70 +2,182 @@ import numpy as np
 from heapq import *  # pylint: disable=unused-wildcard-import
 
 
-def heuristic(a, b):
 
-    x = abs(a[0]-b[0])
-    y = abs(a[1]-b[1])
+def astar(table, start, end):
+    """Returns a list of tuples as a path from the given start to the given end in the given table"""
 
-    if x > y:
-        return 14*y + 10*(x - y)
-    else:
-        return 14*x + 10*(y - x)
-    
+    # Create start and end node
+    start_node = table[start[0]][start[1]]
+    start_node.g = start_node.h = start_node.f = 0
+    end_node = table[end[0]][end[1]]
+    end_node.g = end_node.h = end_node.f = 0
 
+    # Initialize both open and closed list
+    open_list = []
+    closed_list = []
 
-def Astar(array, start, goal):
+    # Add the start node
+    open_list.append(start_node)
 
-    
-    neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
-    
+    # Loop until you find the end
+    while len(open_list) > 0:
 
-    came_from = {}
-    gscore = {start: 0}
-    fscore = {start: heuristic(start, goal)}
-    oheap = []
-    checked = []
+        # Get the current node
+        current_node = open_list[0]
+        current_index = 0
+        for index, item in enumerate(open_list):
+            if item.f < current_node.f:
+                current_node = item
+                current_index = index
 
-    heappush(oheap, (fscore[start], start))
+        # Pop current off open list, add to closed list
+        open_list.pop(current_index)
+        closed_list.append(current_node)
 
-    while oheap:
+        # Found the goal
+        if current_node == end_node:
+            path = []
+            current = current_node
+            while current is not None:
+                path.append((current.row,current.col))
+                current = current.parent
+            return path[::-1] # Return reversed path
 
-        current = heappop(oheap)[1]
-        checked.append(current)
+        # Generate children
+        children = []
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
 
-        if current == goal:
-            data = []
-            while current in came_from:
-                data.append(current)
-                current = came_from[current]
+            # Get node position #check
+            node_position = (current_node.row + new_position[0], current_node.col + new_position[1])
 
-            return list(reversed(data)), checked
-        print("array current",array[current[0],current[1]])
-        array[current[0], current[1]]=2
-        
-        for i, j in neighbors:
+            # Make sure within range
+            if node_position[0] > (len(table) - 1) or node_position[0] < 0 or node_position[1] > (len(table[len(table)-1]) -1) or node_position[1] < 0:
+                continue
 
-            neighbor = current[0] + i, current[1] + j  
+            # Make sure walkable terrain
+            if table[node_position[0]][node_position[1]].field_type == 3:
+                continue
 
-            tentative_g_score = gscore[current] + heuristic(current, neighbor)
+            # Create new node
+            table[node_position[0]][node_position[1]].parent = current_node
+            #new_node = table[node_position[0]][node_position[1]]
+            print("Dla :",node_position[0],node_position[1],"rodzicem jest:",current_node.row,current_node.col)
 
-            if 0 <= neighbor[0] < array.shape[0]:
-                if 0 <= neighbor[1] < array.shape[1]:                
-                    if array.flat[array.shape[1] * neighbor[0]+neighbor[1]] == 1:
-                        continue
-                else:
-                    # array bound y walls
+            # Append
+            children.append(table[node_position[0]][node_position[1]])
+
+        # Loop through children
+        for child in children:
+
+            # Child is on the closed list
+            for closed_child in closed_list:
+                if child == closed_child:
                     continue
-            else:
-                # array bound x walls
+
+            # Create the f, g, and h values
+            child.g = current_node.g + 1
+            child.h = ((child.row - end_node.row) ** 2) + ((child.col - end_node.col) ** 2)
+            child.f = child.g + child.h
+
+            # Child is already in the open list
+            for open_node in open_list:
+                if child == open_node and child.g > open_node.g:
+                    continue
+
+            # Add the child to the open list
+            open_list.append(child)
+
+class AStarNode():
+
+    def __init__(self, parent=None, position=None):
+        self.parent = parent
+        self.position = position
+        self.g = 0
+        self.h = 0
+        self.f = 0
+
+    def __eq__(self, other):
+        return self.position == other.position
+
+
+def APath(table, start, end):
+    """Returns a list of tuples as a path from the given start to the given end in the given table"""
+
+    # Create start and end node
+    start_node = AStarNode(None, start)
+    start_node.g = start_node.h = start_node.f = 0
+    end_node = AStarNode(None, end)
+    end_node.g = end_node.h = end_node.f = 0
+
+    # Initialize both open and closed list
+    open_list = []
+    closed_list = []
+
+    # Add the start node
+    open_list.append(start_node)
+
+    # Loop until you find the end
+    while len(open_list) > 0:
+
+        # Get the current node
+        current_node = open_list[0]
+        current_index = 0
+        for index, item in enumerate(open_list):
+            if item.f < current_node.f:
+                current_node = item
+                current_index = index
+
+        # Pop current off open list, add to closed list
+        open_list.pop(current_index)
+        closed_list.append(current_node)
+
+        # Found the goal
+        if current_node == end_node:
+            path = []
+            current = current_node
+            while current is not None:
+                path.append(current.position)
+                current = current.parent
+            return path[::-1] # Return reversed path
+
+        # Generate children
+        children = []
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
+
+            # Get node position
+            node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
+
+            # Make sure within range
+            if node_position[0] > (len(table) - 1) or node_position[0] < 0 or node_position[1] > (len(table[len(table)-1]) -1) or node_position[1] < 0:
                 continue
 
-            if array[neighbor[0]][neighbor[1]] == 2 and tentative_g_score >= gscore.get(neighbor, 0):
+            # Make sure walkable terrain
+            if table[node_position[0]][node_position[1]].field_type == 3:
                 continue
 
-            if tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in oheap]:
-                came_from[neighbor] = current
-                gscore[neighbor] = tentative_g_score
-                fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
-                heappush(oheap, (fscore[neighbor], neighbor))
-    return False
+            # Create new node
+            new_node = AStarNode(current_node, node_position)
+
+            # Append
+            children.append(new_node)
+
+        # Loop through children
+        for child in children:
+
+            # Child is on the closed list
+            for closed_child in closed_list:
+                if child == closed_child:
+                    continue
+
+            # Create the f, g, and h values
+            child.g = current_node.g + 1
+            child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)
+            child.f = child.g + child.h
+
+            # Child is already in the open list
+            for open_node in open_list:
+                if child == open_node and child.g > open_node.g:
+                    continue
+
+            # Add the child to the open list
+            open_list.append(child)
