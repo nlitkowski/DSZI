@@ -41,11 +41,9 @@ class Window():
 
         #copy table
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-        
-
         path = APath(array,(0,0),(19,19))
-        print(path,"\n\n")
 
+        #draw movement of garbage truck
         for index, t  in enumerate(path):
             x,y =t
             if index != 0:
