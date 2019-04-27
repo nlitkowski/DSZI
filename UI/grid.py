@@ -39,6 +39,7 @@ class Node:
     RED = (255, 0, 0)
     BLUE = (0, 0, 255)
     ORANGE = (255, 165, 0)
+    PINK = (199,21,133)
 
     def __init__(self, row: int, col: int,
                  field_type: int = 0):
@@ -76,3 +77,5 @@ class Node:
             return self.BLUE
         elif self.field_type == 3:
             return self.ORANGE
+        elif self.field_type == 4:
+            return self.PINK

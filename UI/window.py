@@ -2,7 +2,7 @@ import pygame as pg
 import numpy as np
 import random
 from UI.grid import Grid, Node
-from UI.Apath import APath, astar
+from UI.Apath import APath
 
 
 
@@ -32,36 +32,26 @@ class Window():
         grid.change_field(19, 19, 2)
 
         #random obsticle
-        for x in range(70):
+        for x in range(100):
             grid.change_field(random.randint(1,18),random.randint(1,18),3)
 
         #path
         path = [(i, i) for i in range(1, 20, 1)]
         self.grid.draw_map(self.screen)
 
-        #convert table to support Apath algoritm
+        #copy table
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
         
-        #for i,x in enumerate(array):
-        #     for j,y in enumerate(x):
-        #        if y.field_type == 3:
-        #           array[i][j] = None
-                
-        #nodes_array = np.array(array)
 
-        #Run A star
-
-        #path, check = Astar(nodes_array, (0,0), (19, 19))
-        #print(path,"\n\n",check,"\n\n")
         path = APath(array,(0,0),(19,19))
         print(path,"\n\n")
 
-
-        for t in path:
-            x, y = t
-            self.grid.change_field(x-1, y-1, 0)
+        for index, t  in enumerate(path):
+            x,y =t
+            if index != 0:
+                self.grid.change_field(path[index-1][0],path[index-1][1],4)
             self.grid.change_field(x, y, 1)
-            self.grid.draw_node(self.screen, x - 1, y - 1)
+            self.grid.draw_node(self.screen, path[index-1][0],path[index-1][1])
             self.grid.draw_node(self.screen, x, y)
             pg.time.delay(500)
         pg.quit()   # pylint: disable=no-member
