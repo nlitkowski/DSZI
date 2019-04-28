@@ -7,7 +7,7 @@ from UI.Apath import APath
 
 
 class Window():
-    def __init__(self, grid: Grid,start: (int,int),end: (int,int)):
+    def __init__(self, grid: Grid,start: (int,int),end: (int,int),mode: int):
         pg.init()   # pylint: disable=no-member
         # setup window
         pg.display.set_caption('Inteligentna śmieciarka')
@@ -36,8 +36,8 @@ class Window():
 
         def Obstacles(self, grid: Grid,option: int):
             if option == 1:
-                for x in range(len(grid.table)*5):
-                    grid.change_field(random.randint(1,len(grid.table)-1),random.randint(1,len(grid.table)-1),3)
+                for x in range(len(grid.table)*8):
+                    grid.change_field(random.randint(1,len(grid.table)-2),random.randint(1,len(grid.table)-2),3)
             elif option ==2:
                 for x in range (13):
                     grid.change_field(x,14,3)
@@ -46,7 +46,7 @@ class Window():
                 
 
 
-        Obstacles(self,grid,2)
+        Obstacles(self,grid,mode)
         grid.change_field(start[0], start[1], 1)
         grid.change_field(end[0], end[1], 2)
 
@@ -57,7 +57,7 @@ class Window():
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
         path = APath(array,(start[0],start[1]),(end[0],end[1]))
         print("Path:",path)
-        
+
         #draw movement of garbage truck
         for index, t  in enumerate(path):
             x,y =t
