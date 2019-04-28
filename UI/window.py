@@ -7,18 +7,22 @@ from UI.Apath import APath
 
 
 class Window():
-    def __init__(self, grid: Grid):
+    def __init__(self, grid: Grid,start: (int,int),end: (int,int)):
         pg.init()   # pylint: disable=no-member
         # setup window
         pg.display.set_caption('Inteligentna śmieciarka')
-
+        
+        self.start = start
+        self.end = end
         self.grid = grid
+
         # assign to variables for brevity
         cols = self.grid.cols
         rows = self.grid.rows
         width = Node.r_width
         height = Node.r_height
         margin = Node.r_margin
+
 
         screen_width = cols * (width + margin) + 2 * margin
         screen_height = rows * (height + margin) + 2 * margin
@@ -28,21 +32,32 @@ class Window():
         self.end = False
 
         self.clock = pg.time.Clock()
-        grid.change_field(0, 0, 1)
-        grid.change_field(19, 19, 2)
+        
 
-        #random obsticle
-        for x in range(200):
-            grid.change_field(random.randint(1,18),random.randint(1,18),3)
+        def Obstacles(self, grid: Grid,option: int):
+            if option == 1:
+                for x in range(len(grid.table)*5):
+                    grid.change_field(random.randint(1,len(grid.table)-1),random.randint(1,len(grid.table)-1),3)
+            elif option ==2:
+                for x in range (13):
+                    grid.change_field(x,14,3)
+                for x in range (8):
+                    grid.change_field(12,x+6,3)
+                
 
-        #path
-        path = [(i, i) for i in range(1, 20, 1)]
+
+        Obstacles(self,grid,2)
+        grid.change_field(start[0], start[1], 1)
+        grid.change_field(end[0], end[1], 2)
+
+        #draw starting map
         self.grid.draw_map(self.screen)
 
         #copy table
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-        path = APath(array,(0,0),(19,19))
-
+        path = APath(array,(start[0],start[1]),(end[0],end[1]))
+        print("Path:",path)
+        
         #draw movement of garbage truck
         for index, t  in enumerate(path):
             x,y =t
@@ -53,6 +68,8 @@ class Window():
             self.grid.draw_node(self.screen, x, y)
             pg.time.delay(500)
         pg.quit()   # pylint: disable=no-member
+
+    
 
     
 

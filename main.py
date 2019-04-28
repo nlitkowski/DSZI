@@ -6,7 +6,7 @@ def main():
     # initialize grid
     grid = Grid(20, 20)
     # initialize window
-    Window(grid)
+    Window(grid,(0,0),(19,19))
 
 
 if __name__ == "__main__":

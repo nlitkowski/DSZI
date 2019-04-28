@@ -27,14 +27,16 @@ def APath(table, start, end):
     # Add the start node
     open_list.append(start_node)
 
-    # Loop until you find the end
-    while len(open_list) > 0:
 
-        # Get the current node
+    # Loop until you find the end
+    i = 0
+    while len(open_list) > 0:
+        print(i)
+        i=i+1
         current_node = open_list[0]
         current_index = 0
         for index, item in enumerate(open_list):
-            if item.f < current_node.f:
+            if(item.f < current_node.f):
                 current_node = item
                 current_index = index
 
@@ -75,20 +77,39 @@ def APath(table, start, end):
         # Loop through children
         for child in children:
 
+
+            def InClosedlist(child: AStarNode):
+                for closed_child in closed_list:
+                    if child.position == closed_child.position:
+                        return True
+                    
+
+            def InOpenlist(child: AStarNode):
+                for open_node in open_list:
+                    if child == open_node: # and child.g > open_node.g:
+                        return True
+                    
+
+           
             # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
-                    continue
+            if InClosedlist(child)==True:
+                continue
 
             # Create the f, g, and h values
             child.g = current_node.g + 1
-            child.h = ((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)
+            child.h = max(abs(child.position[0] - end_node.position[0]), abs(child.position[1] - end_node.position[1]))
             child.f = child.g + child.h
 
             # Child is already in the open list
-            for open_node in open_list:
-                if child == open_node and child.g > open_node.g:
-                    continue
+            if InOpenlist(child)==True:
+                continue
 
             # Add the child to the open list
             open_list.append(child)
+
+        
+
+           
+
+        
+
