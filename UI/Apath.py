@@ -35,46 +35,46 @@ def APath(table, start, end):
         i=i+1
         current_node = open_list[0]
         current_index = 0
+
+        # Find current node
         for index, item in enumerate(open_list):
             if(item.f < current_node.f):
                 current_node = item
                 current_index = index
 
-        # Pop current off open list, add to closed list
+        # Pop current off open list and add to closed list
         open_list.pop(current_index)
         closed_list.append(current_node)
 
-        # Found the goal
+        # Found end node
         if current_node == end_node:
             path = []
             current = current_node
             while current is not None:
                 path.append(current.position)
                 current = current.parent
-            return path[::-1] # Return reversed path
+            return path[::-1] 
 
         # Generate children
         children = []
-        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: # Adjacent squares
+        for new_position in [(0, -1), (0, 1), (-1, 0), (1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]: 
 
-            # Get node position
+            
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
-            # Make sure within range
+            # If in maze
             if node_position[0] > (len(table) - 1) or node_position[0] < 0 or node_position[1] > (len(table[len(table)-1]) -1) or node_position[1] < 0:
                 continue
 
-            # Make sure walkable terrain
+            # If not obstacle
             if table[node_position[0]][node_position[1]].field_type == 3:
                 continue
 
-            # Create new node
+            
             new_node = AStarNode(current_node, node_position)
-
-            # Append
             children.append(new_node)
 
-        # Loop through children
+        
         for child in children:
 
 
@@ -86,7 +86,7 @@ def APath(table, start, end):
 
             def InOpenlist(child: AStarNode):
                 for open_node in open_list:
-                    if child == open_node: # and child.g > open_node.g:
+                    if child == open_node:
                         return True
                     
 
@@ -95,7 +95,6 @@ def APath(table, start, end):
             if InClosedlist(child)==True:
                 continue
 
-            # Create the f, g, and h values
             child.g = current_node.g + 1
             child.h = max(abs(child.position[0] - end_node.position[0]), abs(child.position[1] - end_node.position[1]))
             child.f = child.g + child.h
@@ -104,7 +103,6 @@ def APath(table, start, end):
             if InOpenlist(child)==True:
                 continue
 
-            # Add the child to the open list
             open_list.append(child)
 
         
