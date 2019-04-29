@@ -92,7 +92,7 @@ def APath(table, start, end):
 
            
             # Child is on the closed list
-            if InClosedlist(child)==True:
+            if InClosedlist(child)==True:   
                 continue
 
             child.g = current_node.g + 1
