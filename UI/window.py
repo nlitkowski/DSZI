@@ -33,11 +33,11 @@ class Window():
         self.clock = pg.time.Clock()
         
 
-        def Obstacles(self, grid: Grid,option: int):
+        def obstacles(self, grid: Grid,option: int):
             if option == 1:
                 for x in range(len(grid.table)*8):
                     grid.change_field(random.randint(1,len(grid.table)-2),random.randint(1,len(grid.table)-2),3)
-            elif option ==2:
+            elif option == 2:
                 for x in range (13):
                     grid.change_field(x,14,3)
                 for x in range (8):
@@ -45,7 +45,7 @@ class Window():
                 
 
 
-        Obstacles(self,grid,mode)
+        obstacles(self,grid,mode)
         grid.change_field(start[0], start[1], 1)
         grid.change_field(end[0], end[1], 2)
 
@@ -67,9 +67,3 @@ class Window():
             self.grid.draw_node(self.screen, x, y)
             pg.time.delay(500)
         pg.quit()   # pylint: disable=no-member
-
-    
-
-    
-
-
