@@ -1,7 +1,7 @@
 import pygame as pg
 import numpy as np
 import random
-from UI.Grid import Grid, Node
+from UI.grid import Grid, Node
 from UI.Apath import a_path
 
 
