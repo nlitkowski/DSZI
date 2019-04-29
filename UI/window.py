@@ -1,9 +1,8 @@
 import pygame as pg
 import numpy as np
 import random
-from UI.grid import Grid, Node
-from UI.Apath import APath
-
+from UI.Grid import Grid, Node
+from UI.Apath import a_path
 
 
 class Window():
@@ -55,7 +54,7 @@ class Window():
 
         #copy table
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-        path = APath(array,(start[0],start[1]),(end[0],end[1]))
+        path = a_path(array,(start[0],start[1]),(end[0],end[1]))
         print("Path:",path)
 
         #draw movement of garbage truck

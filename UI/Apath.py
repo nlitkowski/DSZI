@@ -14,7 +14,7 @@ class AStarNode():
         return self.position == other.position
 
 
-def APath(table, start, end):
+def a_path(table, start, end):
 
     # Create start and end node
     start_node = AStarNode(None, start)
@@ -32,7 +32,7 @@ def APath(table, start, end):
     i = 0
     while len(open_list) > 0:
         print(i)
-        i=i+1
+        i = i + 1
         current_node = open_list[0]
         current_index = 0
 
@@ -78,21 +78,23 @@ def APath(table, start, end):
         for child in children:
 
 
-            def InClosedlist(child: AStarNode):
+            def in_closed_list(child: AStarNode):
                 for closed_child in closed_list:
                     if child.position == closed_child.position:
                         return True
+                return False
                     
 
-            def InOpenlist(child: AStarNode):
+            def in_open_list(child: AStarNode):
                 for open_node in open_list:
                     if child == open_node:
                         return True
+                return False
                     
 
            
             # Child is on the closed list
-            if InClosedlist(child)==True:   
+            if in_closed_list(child)==True:   
                 continue
 
             child.g = current_node.g + 1
@@ -100,7 +102,7 @@ def APath(table, start, end):
             child.f = child.g + child.h
 
             # Child is already in the open list
-            if InOpenlist(child)==True:
+            if in_open_list(child):
                 continue
 
             open_list.append(child)
