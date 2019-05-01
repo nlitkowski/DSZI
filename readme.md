@@ -9,3 +9,4 @@
 **Technologies used**
 - [PyGame](https://www.pygame.org/)
 - [NumPy](http://www.numpy.org/)
+- [PyQt5](https://pypi.org/project/PyQt5/)

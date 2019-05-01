@@ -1,6 +1,7 @@
 import numpy as np
 from heapq import *  # pylint: disable=unused-wildcard-import
 
+
 class AStarNode():
 
     def __init__(self, parent=None, position=None):
@@ -26,7 +27,6 @@ def a_path(table, start, end):
 
     # Add the start node
     open_list.append(start_node)
-
 
     # Loop until you find the end
     i = 0
