@@ -2,7 +2,7 @@ import pygame as pg
 import numpy as np
 import random
 from UI.grid import Grid, Node
-from UI.Apath import a_path
+from Logic.Apath import a_path
 
 
 class Window():

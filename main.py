@@ -1,8 +1,14 @@
 from UI.grid import Grid
 from UI.window import Window
-
+from UI.settings import Settings
+import PyQt5.QtWidgets as QtWidgets
 
 def main():
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    Settings()
+    app.exec()
     # initialize grid
     grid = Grid(20, 20)
     # initialize window (grid, start,end,mode)
