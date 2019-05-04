@@ -1,8 +1,8 @@
 # Project: Artificial intelligence
 **Authors**
- - [Maciej Sobkowiak](https://github.com/MaSobkowiak)
+ - [Maciej Sobkowiak](https://github.com/MaSobkowiak) - UI, pathfinding
  - [Julian Kobryński](https://github.com/JKobrynski)
- - [Norbert Litkowski](https://github.com/nlitkowski)
+ - [Norbert Litkowski](https://github.com/nlitkowski) - UI, image recognition
  
 **Subject: intelligent garbage truck**
 
@@ -10,3 +10,7 @@
 - [PyGame](https://www.pygame.org/)
 - [NumPy](http://www.numpy.org/)
 - [PyQt5](https://pypi.org/project/PyQt5/)
+- [TensorFlow](https://www.tensorflow.org/)
+
+**Credits**
+- As a learning set of images I used images from [this](https://github.com/garythung/trashnet) project.

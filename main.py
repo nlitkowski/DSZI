@@ -8,7 +8,7 @@ def main():
 
     app = QtWidgets.QApplication(sys.argv)
     Settings()
-    app.exec()
+    sys.exit(app.exec_())
     # initialize grid
     grid = Grid(20, 20)
     # initialize window (grid, start,end,mode)
