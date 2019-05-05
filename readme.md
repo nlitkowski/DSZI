@@ -16,3 +16,4 @@
 **Credits**
 - As a training and testing set of images I used images from [this](https://github.com/garythung/trashnet) project.
 - For training we relied on Google Inception model - it's explained [here](https://github.com/tensorflow/models/tree/master/research/inception).
+- I used some code from this [tutorial](https://github.com/MicrocontrollersAndMore/TensorFlow_Tut_2_Classification_Walk-through).
