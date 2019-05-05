@@ -11,7 +11,7 @@
 - [NumPy](http://www.numpy.org/)
 - [PyQt5](https://pypi.org/project/PyQt5/)
 - [TensorFlow](https://www.tensorflow.org/)
-- [Augmentor](https://github.com/mdbloice/Augmentor)
+- [Augmentor](https://augmentor.readthedocs.io)
 
 **Credits**
 - As a learning set of images I used images from [this](https://github.com/garythung/trashnet) project.
