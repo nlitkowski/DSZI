@@ -14,4 +14,4 @@
 - [Augmentor](https://augmentor.readthedocs.io)
 
 **Credits**
-- As a learning set of images I used images from [this](https://github.com/garythung/trashnet) project.
+- As a training and testing set of images I used images from [this](https://github.com/garythung/trashnet) project.
