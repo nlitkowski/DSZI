@@ -1,4 +1,8 @@
-.vscode/*
-*/__pycache__/*
+.vscode/
+*/__pycache__/
 *tex
-Images/TrainingImages/*
+Images/TrainingImages/
+Model/bottleneck/
+Model/retrain_logs/
+Model/variables/
+Model/*.pb_log/
