@@ -1175,7 +1175,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--output_graph',
       type=str,
-      default='Model/output_graph.pb',
+      default='Model/retrained_graph.pb',
       help='Where to save the trained graph.'
   )
   parser.add_argument(
@@ -1196,7 +1196,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--output_labels',
       type=str,
-      default='Model/output_labels.txt',
+      default='Model/retrained_labels.txt',
       help='Where to save the trained graph\'s labels.'
   )
   parser.add_argument(
