@@ -1334,7 +1334,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--saved_model_dir',
       type=str,
-      default='',
+      default='Model',
       help='Where to save the exported graph.')
   parser.add_argument(
       '--logging_verbosity',

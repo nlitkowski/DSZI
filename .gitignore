@@ -4,5 +4,4 @@
 Images/TrainingImages/
 Model/bottleneck/
 Model/retrain_logs/
-Model/variables/
 Model/*.pb_log/
