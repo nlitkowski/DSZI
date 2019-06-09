@@ -74,7 +74,7 @@ def load_labels(label_file):
 
 
 if __name__ == "__main__":
-  model_file = "Model/retrained_graph.pb"
+  model_file = "Model/graph.pb"
   label_file = "Model/retrained_labels.txt"
   input_height = 299
   input_width = 299
@@ -86,11 +86,11 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
 
   parser.add_argument("--graph",
-   default="Model/retrained_graph.pb",
+   default="Model/graph.pb",
    help="graph/model to be executed")
 
   parser.add_argument("--labels",
-   default="Model/retrained_labels.txt",
+   default="Model/graph_labels.txt",
    help="name of file containing labels")
 
   parser.add_argument("--input_height", type=int, help="input height")
@@ -102,7 +102,7 @@ if __name__ == "__main__":
   parser.add_argument("--input_std", type=int, help="input std")
 
   parser.add_argument("--input_layer",
-   default="Placeholder",
+   default="Mul",
     help="name of input layer")
 
   parser.add_argument("--output_layer",
