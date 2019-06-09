@@ -68,6 +68,7 @@ class Window():
                 q[2].append(point)
             elif point[0] >= 10 and point[1] >= 10:
                 q[3].append(point)
+
         for ind, y in enumerate(q):
             def dist(x,y):
                 return hypot(y[0]-x[0],y[1]-x[1])
@@ -98,7 +99,8 @@ class Window():
                 self.grid.draw_node(self.screen, path[index-1][0],path[index-1][1])
                 self.grid.draw_node(self.screen, x, y)
                 pg.time.delay(500)
-            print("collected:",grid.table[x][y].house.trash[2],"on possition: (",x,",",y,")  ", grid.table[x][y].house.trash_file)
+            if(x != end[0] and y != end[1]):
+                print("collected:",grid.table[x][y].house.trash[2],"on possition: (",x,",",y,")  ", grid.table[x][y].house.trash_file)
 
 
         #visit all points from to_collect

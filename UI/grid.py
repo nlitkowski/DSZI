@@ -182,7 +182,7 @@ class Node:
         self.col = col
         self.field_type = field_type
         self.house = House()
-        self.house.generate_trash()
+        #self.house.generate_trash()
 
 
 
