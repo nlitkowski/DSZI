@@ -39,6 +39,9 @@ class Grid:
                 if node.field_type == trash and node.house.empty == False:
                     trash_possition.append((node.row,node.col))
         return trash_possition
+    
+    def day_of_week(self, d: int):
+        return self.table[0][0].house.get_day_of_week(d)
 
 
 
@@ -62,13 +65,14 @@ class House:
     plastic = (8,ORANGE,"plastic")
 
     #define days of the week
-    MONDAY = (paper)
-    TUESDAY = (glass)
-    WEDNESDAY=(plastic,metal)
-    THURSDAY = (glass)
-    FRIDAY = (paper,metal)
-    SATURDAY = (plastic)
-    SUNDAY = (metal)
+    MONDAY = (1, "Monday", paper, metal)
+    TUESDAY = (2, "Tuesday", glass)
+    WEDNESDAY=(3, "Wednesday", plastic, metal)
+    THURSDAY = (4, "Thursday", glass)
+    FRIDAY = (5, "Friday", paper, metal)
+    SATURDAY = (6, "Saturday", plastic)
+    SUNDAY = (7, "Sunday", metal)
+    DAYS = [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
 
 
     def __init__(self):
@@ -103,6 +107,12 @@ class House:
         elif num == 4:
             self.trash = self.plastic
             self.trash_file = self.find_trash_file(self.trash)
+
+    def get_day_of_week(self, d: int):
+        for day in self.DAYS:
+            if day[0] == d:
+                return day
+
 
 
 class Node:
