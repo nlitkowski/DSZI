@@ -1,7 +1,7 @@
 # Project: Artificial intelligence
 **Authors**
  - [Maciej Sobkowiak](https://github.com/MaSobkowiak) - UI, pathfinding
- - [Julian Kobryński](https://github.com/JKobrynski)
+ - [Julian Kobryński](https://github.com/JKobrynski) - Prolog scripts
  - [Norbert Litkowski](https://github.com/nlitkowski) - UI, image recognition
  
 **Subject: intelligent garbage truck**
