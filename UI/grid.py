@@ -3,10 +3,13 @@ import numpy as np
 import random as rd
 from os import listdir
 from os.path import isfile, join
-from Logic.TrashRecognition.ImageClassification import classify
+# from Logic.TrashRecognition.ImageClassification import classify
 
 # MODULE LEVEL VARIABLES
-trash_files = classify()
+recognized_trash = {
+
+}
+# trash_files = classify()
 ########################
 
 
@@ -73,19 +76,20 @@ class House:
     GREY = (192,192,192)
 
     #define trash 
-    paper = (5,WHITE,"paper")
-    glass = (6,SKYBLUE,"glass")
-    metal = (7,GREY,"metal")
-    plastic = (8,ORANGE,"plastic")
-
+    trash_dict = {
+        "paper": (5, WHITE, "paper"),
+        "glass": (6, SKYBLUE, "glass"),
+        "metal": (7, GREY, "metal"),
+        "plastic": (8, ORANGE, "plastic")
+    }
     #define days of the week
-    MONDAY = (1, "Monday", paper, metal)
-    TUESDAY = (2, "Tuesday", glass)
-    WEDNESDAY=(3, "Wednesday", plastic, metal)
-    THURSDAY = (4, "Thursday", glass)
-    FRIDAY = (5, "Friday", paper, metal)
-    SATURDAY = (6, "Saturday", plastic)
-    SUNDAY = (7, "Sunday", metal)
+    MONDAY = (1, "Monday", trash_dict["paper"], trash_dict["metal"])
+    TUESDAY = (2, "Tuesday", trash_dict["glass"])
+    WEDNESDAY=(3, "Wednesday", trash_dict["plastic"], trash_dict["metal"])
+    THURSDAY = (4, "Thursday", trash_dict["glass"])
+    FRIDAY = (5, "Friday", trash_dict["paper"], trash_dict["metal"])
+    SATURDAY = (6, "Saturday", trash_dict["plastic"])
+    SUNDAY = (7, "Sunday", trash_dict["metal"])
     DAYS = [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]
 
 
@@ -95,40 +99,56 @@ class House:
         self.trash_file = None
 
             
-    def find_trash_file(self, trash):
+    def find_trash_file(self):
         # trash_files_list = []
-
-        # file_names = [f for f in listdir("Images\\TestImages") if isfile(join("Images\\TestImages", f))]
+        from os.path import sep # culture and os invariant separator
+        
+        file_names = [(join(f"Images{sep}TestImages", f))
+             for f in listdir(f"Images{sep}TestImages") 
+             if isfile(join(f"Images{sep}TestImages", f))]
         # #filter names
         # for f in file_names:
         #     if trash[2] in f:
         #         trash_files_list.append(f)
-
-        trash_files_list = []
+        file_name = file_names[rd.randint(0,len(file_names)) - 1]
+        from Logic.TrashRecognition.ImageClassification import classify_file
+        if file_name in recognized_trash:
+            rt = recognized_trash[file_name]
+            return (file_name, rt[0], rt[1])
+        else:
+            classification = classify_file(file_dir=file_name)
+            recognized_trash[file_name] = (classification[1], classification[2])
+            return classification 
         
-        # filter names
-        for f in trash_files:
-            if trash[2] in f[1]:
-                trash_files_list.append(f[0])
+        # trash_files_list = []
+        
+        # # filter names
+        # for f in trash_files:
+        #     if trash[2] in f[1]:
+        #         trash_files_list.append(f[0])
 
-        f = rd.randint(0,len(trash_files_list))
-        return trash_files_list[f-1]
+        # f = rd.randint(0,len(trash_files_list))
+        # return trash_files_list[f-1]
 
     def generate_trash(self):
         self.empty = False
-        num = rd.randint(1, 4)
-        if num == 1:
-            self.trash = self.paper
-            self.trash_file = self.find_trash_file(self.trash)
-        elif num == 2:
-            self.trash = self.glass
-            self.trash_file = self.find_trash_file(self.trash)
-        elif num == 3:
-            self.trash = self.metal
-            self.trash_file = self.find_trash_file(self.trash)
-        elif num == 4:
-            self.trash = self.plastic
-            self.trash_file = self.find_trash_file(self.trash)
+        
+        classification = self.find_trash_file()
+        self.trash = self.trash_dict[classification[1]]
+        self.trash_file = classification[0]
+        # num = rd.randint(1, 4)
+        # if num == 1:
+        #     self.trash = self.paper
+        #     self.trash_file = self.find_trash_file(self.trash)
+        # elif num == 2:
+        #     self.trash = self.glass
+        #     self.trash_file = self.find_trash_file(self.trash)
+        # elif num == 3:
+        #     self.trash = self.metal
+        #     self.trash_file = self.find_trash_file(self.trash)
+        # elif num == 4:
+        #     self.trash = self.plastic
+        #     self.trash_file = self.find_trash_file(self.trash)
 
     def get_day_of_week(self, d: int):
         for day in self.DAYS:
