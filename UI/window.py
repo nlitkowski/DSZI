@@ -2,6 +2,7 @@ import pygame as pg
 import numpy as np
 import random
 from math import hypot
+import itertools as it
 from UI.grid import Grid, Node
 from Logic.Apath import a_path
 
@@ -64,25 +65,24 @@ class Window():
         for point in to_collect:
             if point[0]<10 and point[1] < 10:
                 q[0].append(point)
-            elif point[0]>=10 and point[1] < 10:
+            elif point[0] < 10 and point[1] >=10 :
                 q[1].append(point)
-            elif point[0]<10 and point[1] >= 10:
+            elif point[0] >= 10 and point[1] < 10:
                 q[2].append(point)
             elif point[0] >= 10 and point[1] >= 10:
                 q[3].append(point)
         for ind, y in enumerate(q):
             di = []
-            for x in y:
-                if ind == 0:
-                    x1 = 0
-                    y1 = 0
-                else :
-                    x1 = 9
-                    x2 = 9
-                dist = np.sqrt(pow((x[0] - x1), 2) + pow(x[1] - y1, 2))   
-                di.append(dist)
-                ddd ,to_collect_sorted_quarter = zip(*sorted(zip(di,y)))
-            to_collect_sorted.extend(to_collect_sorted_quarter)
+            def dist(x,y):
+                return hypot(y[0]-x[0],y[1]-x[1])
+
+            paths = [ p for p in it.permutations(y) ]
+            path_distances = [ sum(map(lambda x: dist(x[0],x[1]),zip(p[:-1],p[1:]))) for p in paths ]
+            min_index = np.argmin(path_distances)
+
+            print (paths[min_index], path_distances[min_index])
+            to_collect_sorted.extend(paths[min_index])
+
             
 
         #window init
