@@ -1,6 +1,7 @@
 import pygame as pg
 import numpy as np
 import random
+from math import hypot
 from UI.grid import Grid, Node
 from Logic.Apath import a_path
 
@@ -37,24 +38,8 @@ class Window():
         random_trash(grid)
         grid.change_field(start[0], start[1], 1)
         grid.change_field(end[0], end[1], 2)
-
-        #day of week (random)
-        def garbage_to_collect():
-            garbage = []
-            field_types = []
-            d = random.randint(1,7)
-            day = grid.day_of_week(d)
-            for index, x in enumerate(day):
-                if index != 0 and index != 1:
-                    garbage.append(x)
-            print(garbage)
-            print("Today is:", day[1], ", garbage to collect: ",end = '')
-            for x in garbage:
-                print(x[2],", ",end='')
-                field_types.append(x[0])
-            return field_types
-
-        garbage = garbage_to_collect()
+      
+        garbage = grid.garbage_to_collect()
 
         #all obstacles, remove from list objects to collect
         obs = [3,5,6,7,8]
@@ -71,7 +56,34 @@ class Window():
         #sort list of tuples to get minimum distance betwen all of them 
         
         #fajnie jakby sie udalo to zrobic wydajniej ale narazie niech bedzie tak 
-        to_collect = sorted(to_collect)
+                    
+        #dzielimy plansze na 4 cwiartki
+        to_collect_sorted = []
+        q = [[],[],[],[]]
+        distance = []
+        for point in to_collect:
+            if point[0]<10 and point[1] < 10:
+                q[0].append(point)
+            elif point[0]>=10 and point[1] < 10:
+                q[1].append(point)
+            elif point[0]<10 and point[1] >= 10:
+                q[2].append(point)
+            elif point[0] >= 10 and point[1] >= 10:
+                q[3].append(point)
+        for ind, y in enumerate(q):
+            di = []
+            for x in y:
+                if ind == 0:
+                    x1 = 0
+                    y1 = 0
+                else :
+                    x1 = 9
+                    x2 = 9
+                dist = np.sqrt(pow((x[0] - x1), 2) + pow(x[1] - y1, 2))   
+                di.append(dist)
+                ddd ,to_collect_sorted_quarter = zip(*sorted(zip(di,y)))
+            to_collect_sorted.extend(to_collect_sorted_quarter)
+            
 
         #window init
         pg.init()   # pylint: disable=no-member
@@ -97,7 +109,7 @@ class Window():
 
         #visit all points from to_collect
 
-        for ind, x in enumerate(to_collect):
+        for ind, x in enumerate(to_collect_sorted):
             
             if ind == 0:
                 array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
@@ -105,7 +117,7 @@ class Window():
                 #print("Path:",path)
             else:
                 array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-                path = a_path(array,(to_collect[ind-1][0],to_collect[ind-1][1]),(x[0],x[1]),obs)
+                path = a_path(array,(to_collect_sorted[ind-1][0],to_collect_sorted[ind-1][1]),(x[0],x[1]),obs)
                 #print("Path:",path)
 
     
@@ -115,7 +127,7 @@ class Window():
 
         #last move
         array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-        path = a_path(array,(to_collect[len(to_collect)-1][0],to_collect[len(to_collect)-1][1]),(end[0],end[1]),obs)
+        path = a_path(array,(to_collect_sorted[len(to_collect)-1][0],to_collect_sorted[len(to_collect)-1][1]),(end[0],end[1]),obs)
         #print("Path:",path)
         move_truck(path)
 

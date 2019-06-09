@@ -40,8 +40,20 @@ class Grid:
                     trash_possition.append((node.row,node.col))
         return trash_possition
     
-    def day_of_week(self, d: int):
-        return self.table[0][0].house.get_day_of_week(d)
+    def garbage_to_collect(self):
+        garbage = []
+        field_types = []
+        d = rd.randint(1,7)
+        day = self.table[0][0].house.get_day_of_week(d)
+        for index, x in enumerate(day):
+            if index != 0 and index != 1:
+                garbage.append(x)
+        print(garbage)
+        print("Today is:", day[1], ", garbage to collect: ",end = '')
+        for x in garbage:
+            print(x[2],", ",end='')
+            field_types.append(x[0])
+        return field_types
 
 
 
