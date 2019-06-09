@@ -72,13 +72,13 @@ def load_labels(label_file):
     label.append(l.rstrip())
   return label
 
-def classify(model="Model/graph.pb", 
-  label_file="Model/retrained_labels.txt",
+def classify(model_file="Model/graph.pb", 
+  label_file="Model/graph_labels.txt",
   input_height=299,
   input_width=299,
   input_mean=128,
   input_std=128,
-  input_layer="input", #"input",
+  input_layer="Mul", #"input",
   output_layer="final_result"): # "InceptionV3/Predictions/Reshape_1"):
   """Returns list of tuples consisting of name of file, category and certainity (0 - 1)"""
   graph = load_graph(model_file)
@@ -112,7 +112,7 @@ def classify(model="Model/graph.pb",
 
 if __name__ == "__main__":
   model_file = "Model/graph.pb"
-  label_file = "Model/retrained_labels.txt"
+  label_file = "Model/graph_labels.txt"
   input_height = 299
   input_width = 299
   input_mean = 128
@@ -165,7 +165,7 @@ if __name__ == "__main__":
   if args.output_layer:
     output_layer = args.output_layer
   
-  classify(model=model_file, label_file=label_file, input_height=input_height, input_width=input_width,
+  classify(model_file=model_file, label_file=label_file, input_height=input_height, input_width=input_width,
     input_mean=input_mean, input_std=input_std, input_layer=input_layer, output_layer=output_layer)
   
     # for i in top_k:

@@ -3,8 +3,11 @@ import numpy as np
 import random as rd
 from os import listdir
 from os.path import isfile, join
+from Logic.TrashRecognition.ImageClassification import classify
 
-
+# MODULE LEVEL VARIABLES
+trash_files = classify()
+########################
 
 
 class Grid:
@@ -91,16 +94,24 @@ class House:
         self.empty = True
         self.trash = None
         self.trash_file = None
+
             
     def find_trash_file(self, trash):
-        trash_files_list = []
+        # trash_files_list = []
 
-        file_names = [f for f in listdir("Images\\TestImages") if isfile(join("Images\\TestImages", f))]
-        #filter names
-        for f in file_names:
-            if trash[2] in f:
-                trash_files_list.append(f)
+        # file_names = [f for f in listdir("Images\\TestImages") if isfile(join("Images\\TestImages", f))]
+        # #filter names
+        # for f in file_names:
+        #     if trash[2] in f:
+        #         trash_files_list.append(f)
+
+        trash_files_list = []
         
+        # filter names
+        for f in trash_files:
+            if trash[2] in f[1]:
+                trash_files_list.append(f[0])
+
         f = rd.randint(0,len(trash_files_list))
         return trash_files_list[f-1]
 
