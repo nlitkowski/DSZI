@@ -100,18 +100,16 @@ class House:
 
             
     def find_trash_file(self):
-        # trash_files_list = []
         from os.path import sep # culture and os invariant separator
         
         file_names = [(join(f"Images{sep}TestImages", f))
              for f in listdir(f"Images{sep}TestImages") 
              if isfile(join(f"Images{sep}TestImages", f))]
-        # #filter names
-        # for f in file_names:
-        #     if trash[2] in f:
-        #         trash_files_list.append(f)
+
         file_name = file_names[rd.randint(0,len(file_names)) - 1]
+
         from Logic.TrashRecognition.ImageClassification import classify_file
+
         if file_name in recognized_trash:
             rt = recognized_trash[file_name]
             return (file_name, rt[0], rt[1])
@@ -119,16 +117,6 @@ class House:
             classification = classify_file(file_dir=file_name)
             recognized_trash[file_name] = (classification[1], classification[2])
             return classification 
-        
-        # trash_files_list = []
-        
-        # # filter names
-        # for f in trash_files:
-        #     if trash[2] in f[1]:
-        #         trash_files_list.append(f[0])
-
-        # f = rd.randint(0,len(trash_files_list))
-        # return trash_files_list[f-1]
 
     def generate_trash(self):
         self.empty = False
@@ -136,19 +124,6 @@ class House:
         classification = self.find_trash_file()
         self.trash = self.trash_dict[classification[1]]
         self.trash_file = classification[0]
-        # num = rd.randint(1, 4)
-        # if num == 1:
-        #     self.trash = self.paper
-        #     self.trash_file = self.find_trash_file(self.trash)
-        # elif num == 2:
-        #     self.trash = self.glass
-        #     self.trash_file = self.find_trash_file(self.trash)
-        # elif num == 3:
-        #     self.trash = self.metal
-        #     self.trash_file = self.find_trash_file(self.trash)
-        # elif num == 4:
-        #     self.trash = self.plastic
-        #     self.trash_file = self.find_trash_file(self.trash)
 
     def get_day_of_week(self, d: int):
         for day in self.DAYS:
