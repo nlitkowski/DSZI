@@ -31,7 +31,7 @@ def a_path(table, start, end, obstacles):
     # Loop until you find the end
     i = 0
     while len(open_list) > 0:
-        print(i)
+        #print(i)
         i = i + 1
         current_node = open_list[0]
         current_index = 0
