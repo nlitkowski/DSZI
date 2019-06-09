@@ -199,7 +199,7 @@ if __name__ == "__main__":
   if args.output_layer:
     output_layer = args.output_layer
   
-  classify(model_file=model_file, label_file=label_file, input_height=input_height, input_width=input_width,
+  classify_files(model_file=model_file, label_file=label_file, input_height=input_height, input_width=input_width,
     input_mean=input_mean, input_std=input_std, input_layer=input_layer, output_layer=output_layer)
   
     # for i in top_k:
