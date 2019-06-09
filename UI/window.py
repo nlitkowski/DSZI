@@ -72,20 +72,9 @@ class Window():
         #draw starting map
         self.grid.draw_map(self.screen)
 
-        for ind, x in enumerate(to_collect):
-            #copy table
-            if ind == 0:
-                array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-                obs = [3,8,6,7]
-                path = a_path(array,(start[0],start[1]),(x[0],x[1]),obs)
-                print("Path:",path)
-            else:
-                array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
-                obs = [3,6,7,8]
-                path = a_path(array,(to_collect[ind-1][0],to_collect[ind-1][1]),(x[0],x[1]),obs)
-                print("Path:",path)
-    
-            #draw movement of garbage truck
+
+        #move of the truck 
+        def move_truck(path):
             for index, t  in enumerate(path):
                 x,y =t
                 if index != 0:
@@ -94,5 +83,30 @@ class Window():
                 self.grid.draw_node(self.screen, path[index-1][0],path[index-1][1])
                 self.grid.draw_node(self.screen, x, y)
                 pg.time.delay(500)
+
+
+        #visit all points from from to_collect
+        for ind, x in enumerate(to_collect):
+            #copy table
+            obs = [3,8,6,7]
+            if ind == 0:
+                array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
+                path = a_path(array,(start[0],start[1]),(x[0],x[1]),obs)
+                print("Path:",path)
+            else:
+                array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
+                path = a_path(array,(to_collect[ind-1][0],to_collect[ind-1][1]),(x[0],x[1]),obs)
+                print("Path:",path)
+
+    
+            #draw movement of garbage truck
+            move_truck(path)
+
+
+        #last move
+        array = [[self.grid.table[col][row] for row in range(cols)] for col in range(rows)]
+        path = a_path(array,(to_collect[len(to_collect)-1][0],to_collect[len(to_collect)-1][1]),(end[0],end[1]),obs)
+        print("Path:",path)
+        move_truck(path)
 
         pg.quit()   # pylint: disable=no-member
