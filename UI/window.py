@@ -61,7 +61,6 @@ class Window():
         #dzielimy plansze na 4 cwiartki
         to_collect_sorted = []
         q = [[],[],[],[]]
-        distance = []
         for point in to_collect:
             if point[0]<10 and point[1] < 10:
                 q[0].append(point)
@@ -72,15 +71,12 @@ class Window():
             elif point[0] >= 10 and point[1] >= 10:
                 q[3].append(point)
         for ind, y in enumerate(q):
-            di = []
             def dist(x,y):
                 return hypot(y[0]-x[0],y[1]-x[1])
 
             paths = [ p for p in it.permutations(y) ]
             path_distances = [ sum(map(lambda x: dist(x[0],x[1]),zip(p[:-1],p[1:]))) for p in paths ]
             min_index = np.argmin(path_distances)
-
-            print (paths[min_index], path_distances[min_index])
             to_collect_sorted.extend(paths[min_index])
 
             
