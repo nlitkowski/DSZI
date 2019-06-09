@@ -6,9 +6,9 @@ import PyQt5.QtWidgets as QtWidgets
 def main():
     import sys
 
-    app = QtWidgets.QApplication(sys.argv)
-    Settings()
-    sys.exit(app.exec_())
+    #app = QtWidgets.QApplication(sys.argv)
+    #Settings()
+    #sys.exit(app.exec_())
     # initialize grid
     grid = Grid(20, 20)
     # initialize window (grid, start,end,mode)

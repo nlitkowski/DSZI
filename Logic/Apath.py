@@ -15,7 +15,7 @@ class AStarNode():
         return self.position == other.position
 
 
-def a_path(table, start, end):
+def a_path(table, start, end, obstacles):
 
     # Create start and end node
     start_node = AStarNode(None, start)
@@ -67,7 +67,7 @@ def a_path(table, start, end):
                 continue
 
             # If not obstacle
-            if table[node_position[0]][node_position[1]].field_type == 3:
+            if table[node_position[0]][node_position[1]].field_type in obstacles:
                 continue
 
             
