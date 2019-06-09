@@ -51,8 +51,7 @@ class Grid:
         for index, x in enumerate(day):
             if index != 0 and index != 1:
                 garbage.append(x)
-        print(garbage)
-        print("Today is:", day[1], ", garbage to collect: ",end = '')
+        print("\n Today is:", day[1], ", garbage to collect: ",end = '')
         for x in garbage:
             print(x[2],", ",end='')
             field_types.append(x[0])
@@ -164,7 +163,6 @@ class Node:
         self.field_type = field_type
         self.house = House()
         self.house.generate_trash()
-        print(self.house.trash,self.house.trash_file)
 
 
 
