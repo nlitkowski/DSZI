@@ -72,6 +72,43 @@ def load_labels(label_file):
     label.append(l.rstrip())
   return label
 
+def classify(model="Model/graph.pb", 
+  label_file="Model/retrained_labels.txt",
+  input_height=299,
+  input_width=299,
+  input_mean=128,
+  input_std=128,
+  input_layer="input", #"input",
+  output_layer="final_result"): # "InceptionV3/Predictions/Reshape_1"):
+  """Returns list of tuples consisting of name of file, category and certainity (0 - 1)"""
+  graph = load_graph(model_file)
+
+  files = []
+  for filename in os.listdir('Images/TestImages'):
+    t = read_tensor_from_image_file(
+      f'Images/TestImages/{filename}',
+      input_height=input_height,
+      input_width=input_width,
+      input_mean=input_mean,
+      input_std=input_std)
+    input_name = "import/" + input_layer
+    output_name = "import/" + output_layer
+    input_operation = graph.get_operation_by_name(input_name)
+    output_operation = graph.get_operation_by_name(output_name)
+
+    with tf.Session(graph=graph) as sess:
+      results = sess.run(output_operation.outputs[0], {
+          input_operation.outputs[0]: t
+      })
+    results = np.squeeze(results)
+
+    top_k = results.argsort()[-5:][::-1]
+    labels = load_labels(label_file)
+    
+    files.append((filename, labels[top_k[0]], results[top_k[0]]))
+    print(f'{filename}: {labels[top_k[0]]} with {results[top_k[0]] * 100}% certainity')
+  return files
+
 
 if __name__ == "__main__":
   model_file = "Model/graph.pb"
@@ -128,29 +165,9 @@ if __name__ == "__main__":
   if args.output_layer:
     output_layer = args.output_layer
   
-  graph = load_graph(model_file)
-
-  for filename in os.listdir('Images/TestImages'):
-    t = read_tensor_from_image_file(
-      f'Images/TestImages/{filename}',
-      input_height=input_height,
-      input_width=input_width,
-      input_mean=input_mean,
-      input_std=input_std)
-    input_name = "import/" + input_layer
-    output_name = "import/" + output_layer
-    input_operation = graph.get_operation_by_name(input_name)
-    output_operation = graph.get_operation_by_name(output_name)
-
-    with tf.Session(graph=graph) as sess:
-      results = sess.run(output_operation.outputs[0], {
-          input_operation.outputs[0]: t
-      })
-    results = np.squeeze(results)
-
-    top_k = results.argsort()[-5:][::-1]
-    labels = load_labels(label_file)
-    print(f'{filename}: {labels[top_k[0]]} with {results[top_k[0]] * 100}% certainity')
+  classify(model=model_file, label_file=label_file, input_height=input_height, input_width=input_width,
+    input_mean=input_mean, input_std=input_std, input_layer=input_layer, output_layer=output_layer)
+  
     # for i in top_k:
     #   print(labels[i], results[i])
  
