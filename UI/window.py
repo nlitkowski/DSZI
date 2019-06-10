@@ -72,8 +72,10 @@ class Window():
             else:
                 s = to_collect_sorted[len(to_collect_sorted)-1]
             for upoint in to_collect:
-                if upoint in visited:
-                    path_distances.append(55555)
+                if upoint in visited :
+                    path_distances.append(100000)
+                elif dist(s,upoint) > dist(end,upoint):
+                    path_distances.append(50000)
                 else:
                     path_distances.append(dist(s,upoint))
             min_index = np.argmin(path_distances)
