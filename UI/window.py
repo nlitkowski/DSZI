@@ -51,7 +51,7 @@ class Window():
         to_collect = []
         for x in garbage:
             to_collect.extend(grid.get_trash_possition(x))
-        print("\n",len(to_collect)," garbage to collect.\n")
+        print("\n",(len(to_collect)-1)," garbage to collect.\n")
 
         #sort list of tuples to get minimum distance betwen all of them 
         #fajnie jakby sie udalo to zrobic wydajniej ale narazie niech bedzie tak                 
