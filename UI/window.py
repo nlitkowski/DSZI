@@ -55,28 +55,31 @@ class Window():
 
         #sort list of tuples to get minimum distance betwen all of them 
         #fajnie jakby sie udalo to zrobic wydajniej ale narazie niech bedzie tak                 
-        #dzielimy plansze na 4 cwiartki
+
+       
+
+        #change to diagonal distance
+        def dist(x,y):
+            return max(abs(x[0] - y[0]), abs(x[1] - y[1]))
 
         to_collect_sorted = []
-        q = [[],[],[],[]]
-        for point in to_collect:
-            if point[0]<10 and point[1] < 10:
-                q[0].append(point)
-            elif point[0] < 10 and point[1] >=10 :
-                q[1].append(point)
-            elif point[0] >= 10 and point[1] < 10:
-                q[2].append(point)
-            elif point[0] >= 10 and point[1] >= 10:
-                q[3].append(point)
-
-        for ind, y in enumerate(q):
-            def dist(x,y):
-                return hypot(y[0]-x[0],y[1]-x[1])
-
-            paths = [ p for p in it.permutations(y) ]
-            path_distances = [ sum(map(lambda x: dist(x[0],x[1]),zip(p[:-1],p[1:]))) for p in paths ]
+        visited = []
+        for p in to_collect:
+            path_distances =[]
+            #poprzednik
+            if(len(to_collect_sorted) == 0):
+                s = (0,0)
+            else:
+                s = to_collect_sorted[len(to_collect_sorted)-1]
+            for upoint in to_collect:
+                if upoint in visited:
+                    path_distances.append(55555)
+                else:
+                    path_distances.append(dist(s,upoint))
             min_index = np.argmin(path_distances)
-            to_collect_sorted.extend(paths[min_index])
+            visited.append(to_collect[min_index])
+            print(to_collect,"\n",path_distances,"\n",min_index,"\n",to_collect[min_index])
+            to_collect_sorted.append(to_collect[min_index])
 
             
 
